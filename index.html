@@ -15,7 +15,7 @@
 	<script src="threex/threex-arsmoothedcontrols.js"></script>
 
 	<!--<script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>-->
-	<script src="qr_build/qr-scanner.umd.min.js"></script>
+	<!--<script src="qr_build/qr-scanner.umd.min.js"></script>-->
 
 
 </head>
@@ -31,17 +31,20 @@
 
 var scene, camera, renderer, clock, deltaTime, totalTime;
 
-var arToolkitSource, arToolkitContext, smoothedControls;
+var arToolkitSource, arToolkitContext;
 
-var markerRoot1, markerRoot2;
+var markerRoot = [];
 
-var mesh1;
+var smoothedControls = [];
+
+var mesh;
 
 initialize();
 animate();
 
 
-var qrScanner;
+/*
+var qrScanner;*/
 
 
 function initialize()
@@ -75,6 +78,9 @@ function initialize()
 
 	arToolkitSource = new THREEx.ArToolkitSource({
 		sourceType : 'webcam',
+
+		detectionMode: 'mono_and_matrix',
+		matrixCodeType: '3x3'
 	});
 
 	function onResize()
@@ -128,17 +134,19 @@ function initialize()
 		}).catch(err => {
 		});*/
 
+
+		/*
 		
 		let vid = document.getElementsByTagName("video")[0];
 		console.log(vid);
-
+		console.log(vid.attributes);
 		qrScanner = new QrScanner(
 			vid,
 			result => console.log('decoded qr code:', result),
 			{},
 		);
 
-		qrScanner.start();
+		qrScanner.start();*/
 	});
 	
 	// handle resize event
@@ -153,7 +161,9 @@ function initialize()
 	// create atToolkitContext
 	arToolkitContext = new THREEx.ArToolkitContext({
 		cameraParametersUrl: 'data/camera_para.dat',
-		detectionMode: 'mono'
+
+		detectionMode: 'mono_and_matrix',
+		matrixCodeType: '3x3'
 	});
 	
 	// copy projection matrix to camera when initialization complete
@@ -166,38 +176,53 @@ function initialize()
 	////////////////////////////////////////////////////////////
 
 	// build markerControls
-	markerRoot1 = new THREE.Group();
-	scene.add(markerRoot1);
-	
-	let markerControls1 = new THREEx.ArMarkerControls(arToolkitContext, markerRoot1, {
-		type : 'pattern',
-		patternUrl : "data/pattern_tr.patt",
-	})
 
-	// interpolates from last position to create smoother transitions when moving.
-	// parameter lerp values near 0 are slow, near 1 are fast (instantaneous).
-	let smoothedRoot = new THREE.Group();
-	scene.add(smoothedRoot);
-	smoothedControls = new THREEx.ArSmoothedControls(smoothedRoot, {
-		lerpPosition: 0.8,
-		lerpQuaternion: 0.8,
-		lerpScale: 1,
-		// minVisibleDelay: 1,
-		// minUnvisibleDelay: 1,
-	});
 
-	let geometry1	= new THREE.CubeGeometry(1,1,1);
-	let material1	= new THREE.MeshNormalMaterial({
-		transparent : true,
-		opacity: 0.5,
-		side: THREE.DoubleSide
-	}); 
-	
-	mesh1 = new THREE.Mesh( geometry1, material1 );
-	mesh1.position.y = 0.5;
-	
-	// markerRoot1.add( mesh1 );
-	smoothedRoot.add( mesh1 );
+	for (let i=1;i<31;i++)
+	{		
+			let mr = new THREE.Group();
+			scene.add(mr);
+
+
+			markerRoot.push(mr)
+			
+			let markerControls = new THREEx.ArMarkerControls(arToolkitContext, mr, {
+				//type : 'pattern',
+				//patternUrl : "data/pattern_tr.patt",
+
+				type : 'barcode',
+				barcodeValue : i
+			})
+
+			// interpolates from last position to create smoother transitions when moving.
+			// parameter lerp values near 0 are slow, near 1 are fast (instantaneous).
+			let smoothedRoot = new THREE.Group();
+			scene.add(smoothedRoot);
+			sc = new THREEx.ArSmoothedControls(smoothedRoot, {
+				lerpPosition: 0.8,
+				lerpQuaternion: 0.8,
+				lerpScale: 1,
+				// minVisibleDelay: 1,
+				// minUnvisibleDelay: 1,
+			});
+
+			smoothedControls.push(sc);
+
+			let geometry	= new THREE.CubeGeometry(1,1,1);
+
+			
+			let material	= new THREE.MeshNormalMaterial({
+				transparent : true,
+				opacity: 0.5,
+				side: THREE.DoubleSide
+			}); 
+			
+			mesh = new THREE.Mesh( geometry, material );
+			mesh.position.y = 0.5;
+			
+			smoothedRoot.add( mesh );
+	}
+
 }
 
 
@@ -208,7 +233,18 @@ function update()
 		arToolkitContext.update( arToolkitSource.domElement );
 		
 	// additional code for smoothed controls
-	smoothedControls.update(markerRoot1);
+	for (let i = 0; i< markerRoot.length;i++)
+		smoothedControls[i].update(markerRoot[i]);
+
+
+
+	let showing = "CURRENT: ";
+	for (let i=0;i<markerRoot.length;i++)
+		if (markerRoot[i].visible)
+			showing+=(i+1);
+
+	document.getElementById("num").innerText = showing;
+
 }
 
 
@@ -229,5 +265,6 @@ function animate()
 
 </script>
 
+<div id="num" style="font-size:80px;color:white">AAAAAAAAAAAAaa</div>
 </body>
 </html>
