@@ -14,9 +14,6 @@
 	<script src="threex/threex-armarkercontrols.js"></script>
 	<script src="threex/threex-arsmoothedcontrols.js"></script>
 
-	<!--<script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>-->
-	<!--<script src="qr_build/qr-scanner.umd.min.js"></script>-->
-
 
 </head>
 
@@ -43,8 +40,6 @@ initialize();
 animate();
 
 
-/*
-var qrScanner;*/
 
 
 function initialize()
@@ -96,57 +91,6 @@ function initialize()
 	arToolkitSource.init(function onReady(){
 		onResize()
 
-
-		/*
-		Html5Qrcode.getCameras().then(devices => {
-			console.log(devices)
-		if (devices && devices.length) {
-			var cameraId = devices[1].id;
-			// .. use this to start scanning.
-			
-			console.log("START")
-
-			
-
-			const html5QrCode = new Html5Qrcode("reader", true);
-			html5QrCode.start(
-			cameraId, 
-			{
-				fps: 10,    // Optional, frame per seconds for qr code scanning
-				qrbox: { width: 250, height: 250 }  // Optional, if you want bounded box UI
-			},
-			(decodedText, decodedResult) => {
-				console.log(decodedText, decodedResult)
-				// do something when code is read
-			},
-			(errorMessage) => {
-				console.log(errorMessage)
-				// parse error, ignore it.
-			})
-			.catch((err) => {
-				console.log(err)
-			// Start failed, handle it.
-			});
-
-
-
-		}
-		}).catch(err => {
-		});*/
-
-
-		/*
-		
-		let vid = document.getElementsByTagName("video")[0];
-		console.log(vid);
-		console.log(vid.attributes);
-		qrScanner = new QrScanner(
-			vid,
-			result => console.log('decoded qr code:', result),
-			{},
-		);
-
-		qrScanner.start();*/
 	});
 	
 	// handle resize event
@@ -238,10 +182,10 @@ function update()
 
 
 
-	let showing = "CURRENT: ";
+	let showing = "CURRENT: \n";
 	for (let i=0;i<markerRoot.length;i++)
 		if (markerRoot[i].visible)
-			showing+=(i+1);
+			showing+=(i+1)+"\n";
 
 	document.getElementById("num").innerText = showing;
 
@@ -265,6 +209,6 @@ function animate()
 
 </script>
 
-<div id="num" style="font-size:80px;color:white">AAAAAAAAAAAAaa</div>
+<div id="num" style="font-size:35px;color:white">AAAAAAAAAAAAaa</div>
 </body>
 </html>
