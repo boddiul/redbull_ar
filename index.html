@@ -401,7 +401,7 @@ let loadingMesh;
 
 function extraInitialize()
 {
-	logoMesh = new THREE.Mesh(new THREE.PlaneGeometry( 2, 2 ),textures["logo"]);
+	logoMesh = new THREE.Mesh(new THREE.PlaneGeometry( 1, 1 ),textures["logo"]);
 	
 	mainPivot.add(logoMesh);
 
@@ -415,6 +415,14 @@ function extraInitialize()
 
 
 let rotI = 0;
+
+
+const framesToShow = 60;;
+
+
+let visibleMarkerTimer = [];
+for (let i=0;i<30;i++)
+	visibleMarkerTimer.push(framesToShow);
 
 function update()
 {
@@ -438,16 +446,27 @@ function update()
 
 	let showing = "CURRENT: \n";
 
+
+
+
 	let scannedTargetId = -1;
+
 
 	for (let i=0;i<markerRoot.length;i++)
 		if (markerRoot[i].visible)
 		{
-			showing+= (i+1);
-			scannedTargetId = i + 1;
-			break;
+			visibleMarkerTimer[i]-=1;
 
+			if (visibleMarkerTimer[i]<0)
+				scannedTargetId = i+1;
 		}
+		else
+		{
+			visibleMarkerTimer[i]=framesToShow;
+		}
+
+		
+
 
 	if (scannedTargetId!==-1)
 	{
