@@ -78,7 +78,17 @@ function init() {
     renderer.setSize( window.innerWidth, window.innerHeight );
     container.appendChild( renderer.domElement );
 
+    arToolkitSource = new THREEx.ArToolkitSource({
+		sourceType : 'webcam',
 
+		detectionMode: 'mono_and_matrix',
+		matrixCodeType: '3x3'
+	});
+
+	arToolkitSource.init(function onReady(){
+		
+
+	});
 
     let video = document.createElement('video');
 	video.id = 'ar_video';
@@ -179,6 +189,8 @@ function animate() {
 
     requestAnimationFrame( animate );
 
+	//if ( arToolkitSource.ready !== false )
+	//	arToolkitContext.update( arToolkitSource.domElement );
     render();
 
 }
