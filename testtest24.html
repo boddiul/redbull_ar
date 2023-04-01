@@ -80,6 +80,9 @@ startButton.addEventListener( 'click', function () {
     init();
     animate();
 
+
+	loadPics();
+
 } );
 
 function init() {
@@ -258,6 +261,20 @@ function init() {
 
 }
 
+let logoMesh;
+let loadingMesh;
+
+function extraInitialize()
+{
+	logoMesh = new THREE.Mesh(new THREE.PlaneGeometry( 1, 1 ),textures["logo"]);
+	
+	mainPivot.add(logoMesh);
+
+	
+	loadingMesh = new THREE.Mesh(new THREE.PlaneGeometry( 1, 1 ),textures["loading_video"]);
+	
+	mainPivot.add(loadingMesh);
+}
 
 //
 
@@ -276,6 +293,13 @@ for (let i=0;i<30;i++)
 	visibleMarkerTimer.push(framesToShow);
 
 function render() {
+
+
+
+	rotI += 1;
+	if (loadingMesh)
+		loadingMesh.rotation.z = Math.round(rotI/10);
+
 
 	if ( arToolkitSource.ready !== false )
 		arToolkitContext.update( arToolkitSource.domElement );
@@ -321,6 +345,32 @@ function render() {
 	renderer.render( scene, camera );
 
 }
+
+
+let toLoad = ['logo','loading_video'];
+
+const textures = {};
+
+// load textures
+let p = 0;
+function loadPics() {
+  new THREE.TextureLoader().load('other/'+toLoad[p]+'.png', function(texture) {
+    textures[toLoad[p]] = new THREE.MeshBasicMaterial({ map: texture,transparent: true, color: 0xffffff });
+    
+
+    p ++;
+
+    if (p < toLoad.length)
+	{
+		loadPics();
+	}
+	else
+	{
+		extraInitialize();
+	}
+  });
+}
+
 
 </script>
 
