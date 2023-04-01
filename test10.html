@@ -88,19 +88,21 @@ function setVideoMesh(fileId)
 		video.setAttribute('webkit-playsinline', 'webkit-playsinline');
 		video.setAttribute('playsinline', 'playsinline');
 
+
+		/*
 		
 		const source1 = document.createElement('source');
 		source1.src = 'sintel.ogv'//'videos_compressed/'+fileId+'.mp4';
 		source1.type = 'video/ogg';
-		source1.codecs = 'theora, vorbis';
+		//source1.codecs = 'theora, vorbis';
 
-		video.appendChild(source1);
+		video.appendChild(source1);*/
 
 		
 		const source2 = document.createElement('source');
 		source2.src = 'sintel.mp4'
 		source2.type = 'video/mp4';
-		source2.codecs = 'avc1.42E01E, mp4a.40.2';
+		//source2.codecs = 'avc1.42E01E, mp4a.40.2';
 
 		video.appendChild(source2);
 
