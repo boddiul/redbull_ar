@@ -22,10 +22,7 @@
     <div id="overlay">
         <button id="startButton">Play</button>
     </div>
-    <video id="video" loop crossOrigin="anonymous" playsinline style="display:none">
-        <source src="sintel.ogv" type='video/ogg; codecs="theora, vorbis"'>
-        <source src="sintel.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
-    </video>
+ 
 
 
 <script>
@@ -81,7 +78,44 @@ function init() {
     renderer.setSize( window.innerWidth, window.innerHeight );
     container.appendChild( renderer.domElement );
 
-    video = document.getElementById( 'video' );
+
+
+    let video = document.createElement('video');
+	video.id = 'ar_video';
+	//video.autoplay = true;
+	//video.muted = true;
+	video.crossOrigin = 'anonymous';
+	//video.webkitPlaysinline = true;
+	video.style.display = 'none';
+
+	video.setAttribute('webkit-playsinline', 'webkit-playsinline');
+	video.setAttribute('playsinline', 'playsinline');
+
+    const source1 = document.createElement('source');
+	source1.src = 'sintel.ogv'//'videos_compressed/'+fileId+'.mp4';
+	source1.type = 'video/ogg';
+	//source1.codecs = 'theora, vorbis';
+
+	video.appendChild(source1);
+
+		
+	const source2 = document.createElement('source');
+	source2.src = 'sintel.mp4'
+	source2.type = 'video/mp4';
+	//source2.codecs = 'avc1.42E01E, mp4a.40.2';
+
+	video.appendChild(source2);
+
+	document.body.appendChild(video);
+
+
+
+
+
+
+
+
+
     video.play();
     video.addEventListener( 'play', function () {
 
