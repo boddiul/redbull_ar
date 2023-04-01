@@ -82,7 +82,7 @@ function init() {
 
     let video = document.createElement('video');
 	video.id = 'ar_video';
-	//video.autoplay = true;
+	video.autoplay = true;
 	//video.muted = true;
 	video.crossOrigin = 'anonymous';
 	//video.webkitPlaysinline = true;
@@ -110,6 +110,7 @@ function init() {
 
 	document.body.appendChild(video);
 
+   
 
 
 
@@ -117,9 +118,8 @@ function init() {
     video.addEventListener('loadeddata', () => {
 
 
-
-
         video.play();
+
 
         texture = new THREE.VideoTexture( video );
 
