@@ -237,6 +237,8 @@ function setVideoMesh(fileId)
 			loadingMesh.visible = false;
 			console.log("VIDEO LOADED")
 
+			video.play();
+
 			
 				
 			let geometry1 = new THREE.PlaneBufferGeometry(videoScale,videoScale*640/360, 4,4);
