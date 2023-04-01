@@ -28,7 +28,9 @@ for filename in os.listdir(input_folder):
             # compress the video and save to the output folder
             compressed_filename = os.path.join(output_folder, filename)
 
-            compressed_filename = compressed_filename.split(".")[0]+".webm"
-            video_clip.write_videofile(compressed_filename, bitrate=bitrate, codec='libvpx')
+            #compressed_filename = compressed_filename.split(".")[0]+".webm"
+            video_clip.write_videofile(compressed_filename, bitrate=bitrate,
+                    audio_codec="aac",
+                    codec="h264_nvenc")
             
             print(f'Compressed {filename} and saved to {compressed_filename}')
