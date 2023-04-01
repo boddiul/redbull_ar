@@ -2,13 +2,14 @@ import os
 from moviepy.editor import VideoFileClip
 
 # set the parameters for the compressed videos
-fps = 10
-bitrate = '500k'
+fps = 15
+bitrate = '1000k'
 resolution = (720/2, 1280/2) # set to desired resolution
 
 # set the paths for the input and output folders
 input_folder = 'videos_full'
 output_folder = 'videos_compressed'
+
 
 
 # loop through all files in the input folder
@@ -26,6 +27,8 @@ for filename in os.listdir(input_folder):
             
             # compress the video and save to the output folder
             compressed_filename = os.path.join(output_folder, filename)
-            video_clip.write_videofile(compressed_filename, bitrate=bitrate, codec='libx264')
+
+            compressed_filename = compressed_filename.split(".")[0]+".webm"
+            video_clip.write_videofile(compressed_filename, bitrate=bitrate, codec='libvpx')
             
             print(f'Compressed {filename} and saved to {compressed_filename}')
