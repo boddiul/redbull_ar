@@ -235,11 +235,25 @@ function extraInitialize()
 
 
 
-	setVideoMesh("Alina Smirnova");
 }
 
 
 
+let clicked = false;
+
+
+document.addEventListener("click",function()
+{
+
+	if (!clicked)
+	{
+		clicked =true;
+
+		
+		setVideoMesh("Alina Smirnova");
+	}
+
+}.bind(this))
 
 let rotI = 0;
 
