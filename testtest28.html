@@ -264,9 +264,13 @@ function init() {
 	scene.add(mainPivot);
 	scene.add(frontPivot);
 
+	window.setTimeout(function(){
+
+		setVideoMesh(null);
+	}
+	, 5000);
 
 
-	setVideoMesh(null);
 
 
 }
