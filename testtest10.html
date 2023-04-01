@@ -215,6 +215,9 @@ function setVideoMesh(fileId)
 		//video.webkitPlaysinline = true;
 		video.style.display = 'none';
 
+        video.setAttribute('webkit-playsinline', 'webkit-playsinline');
+	    video.setAttribute('playsinline', 'playsinline');
+
 		const source = document.createElement('source');
 		source.src = 'videos_compressed/'+fileId+'.mp4';
 		source.type = 'video/mp4';
