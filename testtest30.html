@@ -90,6 +90,8 @@ function setVideoMesh(fileId)
 	video.setAttribute('playsinline', 'playsinline');
 
 
+	video.src ='videos_compressed/'+"Alina Grusco"+'.mp4'; 
+
     /*
     const source1 = document.createElement('source');
 	source1.src = 'sintel.ogv'//
@@ -99,12 +101,8 @@ function setVideoMesh(fileId)
 	video.appendChild(source1);*/
 
 		
-	const source2 = document.createElement('source');
-	source2.src = 'videos_compressed/'+"Alina Grusco"+'.mp4';
-	source2.type = 'video/mp4';
 	//source2.codecs = 'avc1.42E01E, mp4a.40.2';
 
-	video.appendChild(source2);
 
 	document.body.appendChild(video);
 
