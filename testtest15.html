@@ -137,6 +137,7 @@ function init() {
 		camera.projectionMatrix.copy( arToolkitContext.getProjectionMatrix() );
 	});
 
+	/*
 	for (let i=1;i<31;i++)
 	{		
 			let mr = new THREE.Group();
@@ -170,7 +171,7 @@ function init() {
 
 
 
-	}
+	}*/
 
 	mainPivot = new THREE.Object3D();
 
@@ -294,9 +295,8 @@ function render() {
 	if ( arToolkitSource.ready !== false )
 		arToolkitContext.update( arToolkitSource.domElement );
 		
-	// additional code for smoothed controls
-	for (let i = 0; i< markerRoot.length;i++)
-		smoothedControls[i].update(markerRoot[i]);
+	//for (let i = 0; i< markerRoot.length;i++)
+	//	smoothedControls[i].update(markerRoot[i]);
 
 
 	//mainPivot.position.z = frontPivot.position.z;
@@ -308,6 +308,7 @@ function render() {
 
 	let scannedTargetId = -1;
 
+	/*
 
 	for (let i=0;i<markerRoot.length;i++)
 		if (markerRoot[i].visible)
@@ -322,7 +323,7 @@ function render() {
 			if (i+1!==currentTargetId)
 				visibleMarkerTimer[i]=framesToShow;
 		}
-
+	*/
 		
 
 
