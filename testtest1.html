@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<head>
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<title>Hello, AR Cube!</title>
+	<!-- include three.js library -->
+	<script src='https://unpkg.com/three@0.151.2/build/three.js'></script>
+	<!-- include jsartookit -->
+	<script src="jsartoolkit5/artoolkit.min.js"></script>
+	<script src="jsartoolkit5/artoolkit.api.js"></script>
+	<!-- include threex.artoolkit -->
+	<script src="threex/threex-artoolkitsource.js"></script>
+	<script src="threex/threex-artoolkitcontext.js"></script>
+	<script src="threex/threex-arbasecontrols.js"></script>
+	<script src="threex/threex-armarkercontrols.js"></script>
+	<script src="threex/threex-arsmoothedcontrols.js"></script>
+
+
+</head>
+
+<body style='margin : 0px; overflow: hidden; font-family: Monospace;'>
+
+    <div id="overlay">
+        <button id="startButton">Play</button>
+    </div>
+    <video id="video" loop crossOrigin="anonymous" playsinline style="display:none">
+        <source src="sintel.ogv" type='video/ogg; codecs="theora, vorbis"'>
+        <source src="sintel.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
+    </video>
+
+
+<script>
+let container;
+
+let camera, scene, renderer;
+
+let video, texture, material, mesh;
+
+let composer;
+
+let mouseX = 0;
+let mouseY = 0;
+
+let windowHalfX = window.innerWidth / 2;
+let windowHalfY = window.innerHeight / 2;
+
+let cube_count;
+
+const meshes = [],
+    materials = [],
+
+    xgrid = 20,
+    ygrid = 10;
+
+const startButton = document.getElementById( 'startButton' );
+startButton.addEventListener( 'click', function () {
+
+    init();
+    animate();
+
+} );
+
+function init() {
+
+    const overlay = document.getElementById( 'overlay' );
+    overlay.remove();
+
+    container = document.createElement( 'div' );
+    document.body.appendChild( container );
+
+    camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 10000 );
+
+
+    scene = new THREE.Scene();
+
+    const light = new THREE.DirectionalLight( 0xffffff );
+    light.position.set( 0.5, 1, 1 ).normalize();
+    scene.add( light );
+
+    renderer = new THREE.WebGLRenderer();
+    renderer.setPixelRatio( window.devicePixelRatio );
+    renderer.setSize( window.innerWidth, window.innerHeight );
+    container.appendChild( renderer.domElement );
+
+    video = document.getElementById( 'video' );
+    video.play();
+    video.addEventListener( 'play', function () {
+
+        this.currentTime = 3;
+
+    } );
+
+    texture = new THREE.VideoTexture( video );
+
+    let geometry1 = new THREE.PlaneGeometry(4,4, 4,4);
+	
+	let material1 = new THREE.MeshBasicMaterial( { map: texture } );
+						
+	VideoMesh = new THREE.Mesh( geometry1, material1 );
+    VideoMesh.position.z = -10;
+	console.log(VideoMesh);
+	scene.add(VideoMesh);
+    //
+
+    let i, j, ox, oy, geometry;
+
+    const ux = 1 / xgrid;
+    const uy = 1 / ygrid;
+
+    const xsize = 480 / xgrid;
+    const ysize = 204 / ygrid;
+
+
+
+    document.addEventListener( 'mousemove', onDocumentMouseMove );
+
+
+
+    //
+
+    window.addEventListener( 'resize', onWindowResize );
+
+}
+
+function onWindowResize() {
+
+    windowHalfX = window.innerWidth / 2;
+    windowHalfY = window.innerHeight / 2;
+
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+
+    renderer.setSize( window.innerWidth, window.innerHeight );
+    composer.setSize( window.innerWidth, window.innerHeight );
+
+}
+
+
+function onDocumentMouseMove( event ) {
+
+    mouseX = ( event.clientX - windowHalfX );
+    mouseY = ( event.clientY - windowHalfY ) * 0.3;
+
+}
+
+//
+
+function animate() {
+
+    requestAnimationFrame( animate );
+
+    render();
+
+}
+
+let h, counter = 1;
+
+function render() {
+
+    const time = Date.now() * 0.00005;
+
+	renderer.render( scene, camera );
+
+}
+
+</script>
+
+</body>
+</html>
