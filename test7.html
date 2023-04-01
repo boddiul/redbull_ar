@@ -85,11 +85,18 @@ function setVideoMesh(fileId)
 		video.webkitPlaysinline = true;
 		video.style.display = 'none';
 
-		const source = document.createElement('source');
-		source.src = 'sintel.ogv'//'videos_compressed/'+fileId+'.mp4';
-		source.type = 'video/ogg';
+		const source1 = document.createElement('source');
+		source1.src = 'sintel.ogv'//'videos_compressed/'+fileId+'.mp4';
+		source1.type = 'video/ogg';
 
-		video.appendChild(source);
+		video.appendChild(source1);
+
+		
+		const source2 = document.createElement('source');
+		source2.src = 'sintel.mp4'
+		source2.type = 'video/mp4';
+
+		video.appendChild(source2);
 
 		document.body.appendChild(video);
 		console.log("ADDED?")
