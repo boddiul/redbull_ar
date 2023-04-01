@@ -74,6 +74,72 @@ let frontPivot;
 
 
 
+function setVideoMesh(fileId)
+{
+
+	
+    let video = document.createElement('video');
+	video.id = 'ar_video';
+	video.autoplay = true;
+	//video.muted = true;
+	video.crossOrigin = 'anonymous';
+	//video.webkitPlaysinline = true;
+	video.style.display = 'none';
+
+	video.setAttribute('webkit-playsinline', 'webkit-playsinline');
+	video.setAttribute('playsinline', 'playsinline');
+
+
+    /*
+    const source1 = document.createElement('source');
+	source1.src = 'sintel.ogv'//
+	source1.type = 'video/ogg';
+	//source1.codecs = 'theora, vorbis';
+
+	video.appendChild(source1);*/
+
+		
+	const source2 = document.createElement('source');
+	source2.src = 'videos_compressed/'+"Alina Grusco"+'.mp4';
+	source2.type = 'video/mp4';
+	//source2.codecs = 'avc1.42E01E, mp4a.40.2';
+
+	video.appendChild(source2);
+
+	document.body.appendChild(video);
+
+   
+
+
+
+
+    video.addEventListener('loadeddata', () => {
+
+
+        video.play();
+
+
+        texture = new THREE.VideoTexture( video );
+
+                texture.minFilter = THREE.LinearFilter;
+                texture.magFilter = THREE.LinearFilter;
+                texture.format = THREE.RGBFormat;
+        let geometry1 = new THREE.PlaneBufferGeometry(2.5,4, 4,4);
+
+        let material1 = new THREE.MeshBasicMaterial( { map: texture } );
+                            
+        VideoMesh = new THREE.Mesh( geometry1, material1 );
+        VideoMesh.position.z = -10;
+        console.log(VideoMesh);
+        scene.add(VideoMesh);
+        //
+
+    });
+}
+
+
+
+
 const startButton = document.getElementById( 'startButton' );
 startButton.addEventListener( 'click', function () {
 
@@ -199,63 +265,6 @@ function init() {
 	scene.add(frontPivot);
 
 
-    let video = document.createElement('video');
-	video.id = 'ar_video';
-	video.autoplay = true;
-	//video.muted = true;
-	video.crossOrigin = 'anonymous';
-	//video.webkitPlaysinline = true;
-	video.style.display = 'none';
-
-	video.setAttribute('webkit-playsinline', 'webkit-playsinline');
-	video.setAttribute('playsinline', 'playsinline');
-
-
-    /*
-    const source1 = document.createElement('source');
-	source1.src = 'sintel.ogv'//
-	source1.type = 'video/ogg';
-	//source1.codecs = 'theora, vorbis';
-
-	video.appendChild(source1);*/
-
-		
-	const source2 = document.createElement('source');
-	source2.src = 'videos_compressed/'+"Alina Grusco"+'.mp4';
-	source2.type = 'video/mp4';
-	//source2.codecs = 'avc1.42E01E, mp4a.40.2';
-
-	video.appendChild(source2);
-
-	document.body.appendChild(video);
-
-   
-
-
-
-
-    video.addEventListener('loadeddata', () => {
-
-
-        video.play();
-
-
-        texture = new THREE.VideoTexture( video );
-
-                texture.minFilter = THREE.LinearFilter;
-                texture.magFilter = THREE.LinearFilter;
-                texture.format = THREE.RGBFormat;
-        let geometry1 = new THREE.PlaneBufferGeometry(2.5,4, 4,4);
-
-        let material1 = new THREE.MeshBasicMaterial( { map: texture } );
-                            
-        VideoMesh = new THREE.Mesh( geometry1, material1 );
-        VideoMesh.position.z = -10;
-        console.log(VideoMesh);
-        scene.add(VideoMesh);
-        //
-
-    });
 
 
 
@@ -341,6 +350,16 @@ function render() {
 		mainPivot.scale.set(avgScale.x,avgScale.y,avgScale.z);	
 	}	
 
+	mainPivot.visible = true;
+	if (currentTargetId!==scannedTargetId && scannedTargetId!==-1)
+	{
+		
+		currentTargetId = scannedTargetId;
+		setVideoMesh(null);
+		
+			
+		mainPivot.visible = false;
+	}
 
 	renderer.render( scene, camera );
 
