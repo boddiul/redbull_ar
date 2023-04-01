@@ -110,29 +110,29 @@ function setVideoMesh(fileId)
 
    
 
+	video.play();
+	texture = new THREE.VideoTexture( video );
+
+	texture.minFilter = THREE.LinearFilter;
+	texture.magFilter = THREE.LinearFilter;
+	texture.format = THREE.RGBFormat;
+	let geometry1 = new THREE.PlaneBufferGeometry(2.5,4, 4,4);
+
+	let material1 = new THREE.MeshBasicMaterial( { map: texture } );
+				
+	VideoMesh = new THREE.Mesh( geometry1, material1 );
+	VideoMesh.position.z = -10;
+	console.log(VideoMesh);
+	scene.add(VideoMesh);
+	//
 
 
 
     video.addEventListener('loadeddata', () => {
 
 
-        video.play();
 
 
-        texture = new THREE.VideoTexture( video );
-
-                texture.minFilter = THREE.LinearFilter;
-                texture.magFilter = THREE.LinearFilter;
-                texture.format = THREE.RGBFormat;
-        let geometry1 = new THREE.PlaneBufferGeometry(2.5,4, 4,4);
-
-        let material1 = new THREE.MeshBasicMaterial( { map: texture } );
-                            
-        VideoMesh = new THREE.Mesh( geometry1, material1 );
-        VideoMesh.position.z = -10;
-        console.log(VideoMesh);
-        scene.add(VideoMesh);
-        //
 
     });
 }
