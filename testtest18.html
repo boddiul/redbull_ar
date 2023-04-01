@@ -48,6 +48,32 @@ const meshes = [],
     xgrid = 20,
     ygrid = 10;
 
+
+	var clock, deltaTime, totalTime;
+
+var arToolkitSource, arToolkitContext;
+
+var markerRoot = [];
+
+var smoothedControls = [];
+var smoothedRoots = [];
+
+
+var videoScale = 1;
+
+
+let currentTargetId = -1;
+
+
+let VideoMesh = null;
+
+let mainPivot;
+
+let frontPivot;
+
+
+
+
 const startButton = document.getElementById( 'startButton' );
 startButton.addEventListener( 'click', function () {
 
@@ -124,6 +150,42 @@ function init() {
 		camera.projectionMatrix.copy( arToolkitContext.getProjectionMatrix() );
 	});
 
+
+
+
+	for (let i=1;i<31;i++)
+	{		
+			let mr = new THREE.Group();
+			scene.add(mr);
+			markerRoot.push(mr)
+			
+			let markerControls = new THREEx.ArMarkerControls(arToolkitContext, mr, {
+	
+				type : 'barcode',
+				barcodeValue : i
+			})
+			let sr = new THREE.Group();
+			scene.add(sr);
+			sc = new THREEx.ArSmoothedControls(sr, {
+				lerpPosition: 0.8,
+				lerpQuaternion: 0.8,
+				lerpScale: 1
+			});
+			smoothedControls.push(sc);
+			let testObject = new THREE.Object3D();
+			testObject.rotation.x = -Math.PI/2;
+			smoothedRoots.push(testObject);
+			sr.add(testObject);
+	}
+
+	mainPivot = new THREE.Object3D();
+
+	frontPivot = new THREE.Object3D();
+	frontPivot.position.z = -4.5;
+	frontPivot.scale.set(2,2,2);
+
+	scene.add(mainPivot);
+	scene.add(frontPivot);
 
 
     let video = document.createElement('video');
