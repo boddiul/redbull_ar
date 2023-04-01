@@ -463,7 +463,8 @@ function update()
 		}
 		else
 		{
-			visibleMarkerTimer[i]=framesToShow;
+			if (i+1!==currentTargetId)
+				visibleMarkerTimer[i]=framesToShow;
 		}
 
 		

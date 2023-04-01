@@ -3,7 +3,7 @@ from moviepy.editor import VideoFileClip
 
 # set the parameters for the compressed videos
 fps = 15
-bitrate = '1000k'
+bitrate = '500k'
 resolution = (720/2, 1280/2) # set to desired resolution
 
 # set the paths for the input and output folders
