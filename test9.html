@@ -79,12 +79,16 @@ function setVideoMesh(fileId)
 
 		const video = document.createElement('video');
 		video.id = 'ar_video';
-		video.autoplay = true;
+		//video.autoplay = true;
 		//video.muted = true;
 		video.crossOrigin = 'anonymous';
-		video.webkitPlaysinline = true;
+		//video.webkitPlaysinline = true;
 		video.style.display = 'none';
 
+		video.setAttribute('webkit-playsinline', 'webkit-playsinline');
+		video.setAttribute('playsinline', 'playsinline');
+
+		
 		const source1 = document.createElement('source');
 		source1.src = 'sintel.ogv'//'videos_compressed/'+fileId+'.mp4';
 		source1.type = 'video/ogg';
@@ -112,6 +116,8 @@ function setVideoMesh(fileId)
 
 			loadingMesh.visible = false;
 			console.log("VIDEO LOADED")
+
+			video.play();
 
 			
 				
