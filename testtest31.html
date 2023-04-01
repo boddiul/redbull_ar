@@ -23,6 +23,10 @@
         <button id="startButton">Play</button>
     </div>
  
+	<video id="video_ar" loop crossOrigin="anonymous" playsinline style="display:none">
+		
+		
+	</video>
 
 
 <script>
@@ -78,17 +82,7 @@ function setVideoMesh(fileId)
 {
 
 	
-    let video = document.createElement('video');
-	video.id = 'ar_video';
-	video.autoplay = true;
-	//video.muted = true;
-	video.crossOrigin = 'anonymous';
-	//video.webkitPlaysinline = true;
-	video.style.display = 'none';
-
-	video.setAttribute('webkit-playsinline', 'webkit-playsinline');
-	video.setAttribute('playsinline', 'playsinline');
-
+	let video = document.getElementById("video_ar");
 
 	video.src ='videos_compressed/'+"Alina Grusco"+'.mp4'; 
 
