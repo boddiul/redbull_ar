@@ -264,18 +264,59 @@ function init() {
 function animate() {
 
     requestAnimationFrame( animate );
-	if ( arToolkitSource.ready !== false )
-		arToolkitContext.update( arToolkitSource.domElement );
 	
     render();
 
 }
-
-let h, counter = 1;
+	
+let rotI = 0;	
+const framesToShow = 60;;	
+let visibleMarkerTimer = [];	
+for (let i=0;i<30;i++)	
+	visibleMarkerTimer.push(framesToShow);
 
 function render() {
 
-    const time = Date.now() * 0.00005;
+	if ( arToolkitSource.ready !== false )
+		arToolkitContext.update( arToolkitSource.domElement );
+
+	for (let i = 0; i< markerRoot.length;i++)	
+		smoothedControls[i].update(markerRoot[i]);
+		
+		let scannedTargetId = -1;	
+	for (let i=0;i<markerRoot.length;i++)	
+		if (markerRoot[i].visible)	
+		{	
+			visibleMarkerTimer[i]-=1;	
+			if (visibleMarkerTimer[i]<0)	
+				scannedTargetId = i+1;	
+		}	
+		else	
+		{	
+			if (i+1!==currentTargetId)	
+				visibleMarkerTimer[i]=framesToShow;	
+		}	
+			
+	if (scannedTargetId!==-1)	
+	{	
+		let rootO = smoothedRoots[scannedTargetId-1];	
+		let rootP = rootO.getWorldPosition();	
+		let rootQ = rootO.getWorldQuaternion().clone();	
+		let rootS = rootO.getWorldScale().clone();	
+			
+		const midpoint = new THREE.Vector3().addVectors(rootP, frontPivot.position).multiplyScalar(0.5);	
+		rootQ.slerp(frontPivot.quaternion, 0.5);	
+		const avgQuaternion = rootQ.clone();	
+		const avgScale =  new THREE.Vector3().addVectors(rootS, frontPivot.scale).multiplyScalar(0.5);	
+		/*	
+		const midpoint = frontPivot.position;	
+		const avgQuaternion = frontPivot.quaternion;	
+		const avgScale = frontPivot.scale;*/	
+		mainPivot.position.copy(midpoint);	
+		mainPivot.quaternion.copy(avgQuaternion);	
+		mainPivot.scale.set(avgScale.x,avgScale.y,avgScale.z);	
+	}	
+
 
 	renderer.render( scene, camera );
 
