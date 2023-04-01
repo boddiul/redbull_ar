@@ -61,22 +61,24 @@ function init() {
     const overlay = document.getElementById( 'overlay' );
     overlay.remove();
 
-    container = document.createElement( 'div' );
-    document.body.appendChild( container );
+	scene = new THREE.Scene();
 
-    camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 10000 );
+	let ambientLight = new THREE.AmbientLight( 0xcccccc, 0.5 );
+	scene.add( ambientLight );
+				
+	camera = new THREE.Camera();
+	scene.add(camera);
 
-
-    scene = new THREE.Scene();
-
-    const light = new THREE.DirectionalLight( 0xffffff );
-    light.position.set( 0.5, 1, 1 ).normalize();
-    scene.add( light );
-
-    renderer = new THREE.WebGLRenderer();
-    renderer.setPixelRatio( window.devicePixelRatio );
-    renderer.setSize( window.innerWidth, window.innerHeight );
-    container.appendChild( renderer.domElement );
+	renderer = new THREE.WebGLRenderer({
+		antialias : true,
+		alpha: true
+	});
+	renderer.setClearColor(new THREE.Color('lightgrey'), 0)
+	renderer.setSize( 640, 480 );
+	renderer.domElement.style.position = 'absolute'
+	renderer.domElement.style.top = '0px'
+	renderer.domElement.style.left = '0px'
+	document.body.appendChild( renderer.domElement );
 
     arToolkitSource = new THREEx.ArToolkitSource({
 		sourceType : 'webcam',
