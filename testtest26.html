@@ -283,6 +283,9 @@ function extraInitialize()
 	loadingMesh = new THREE.Mesh(new THREE.PlaneGeometry( 1, 1 ),textures["loading_video"]);
 	
 	mainPivot.add(loadingMesh);
+
+
+	setVideoMesh(null);
 }
 
 //
@@ -355,7 +358,7 @@ function render() {
 	{
 		
 		currentTargetId = scannedTargetId;
-		setVideoMesh(null);
+		
 		
 			
 		mainPivot.visible = false;
