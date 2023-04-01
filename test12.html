@@ -79,7 +79,7 @@ function setVideoMesh(fileId)
 
 		const video = document.createElement('video');
 		video.id = 'ar_video';
-		//video.autoplay = true;
+		video.autoplay = true;
 		//video.muted = true;
 		video.crossOrigin = 'anonymous';
 		//video.webkitPlaysinline = true;
@@ -100,7 +100,7 @@ function setVideoMesh(fileId)
 
 		
 		const source2 = document.createElement('source');
-		source2.src = 'sintel.mp4'
+		source2.src = 'videos_compressed/'+"Alina Grusco"+'.mp4';
 		source2.type = 'video/mp4';
 		//source2.codecs = 'avc1.42E01E, mp4a.40.2';
 
@@ -119,7 +119,7 @@ function setVideoMesh(fileId)
 			loadingMesh.visible = false;
 			console.log("VIDEO LOADED")
 
-			video.play();
+			//video.play();
 
 			
 				
