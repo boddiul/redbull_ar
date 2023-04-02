@@ -20,6 +20,14 @@
 <body style='margin : 0px; overflow: hidden; font-family: Monospace;'>
 
 
+    <div id="overlay">
+        <button id="startButton">Play</button>
+    </div>
+ 
+	<video id="video_ar" crossOrigin="anonymous" playsinline style="display:none">
+		
+		
+	</video>
 
 <script>
 
@@ -174,10 +182,7 @@ function setVideoMesh(fileId)
 {
 
 
-	let el = document.getElementById("ar_video");
-
-	if (el)
-		el.remove();
+	let video = document.getElementById("video_ar");
 
 
 	if (VideoMesh)
@@ -190,61 +195,32 @@ function setVideoMesh(fileId)
 		console.log("VIDEO MESH DISPOSED")
 	}
 	loadingMesh.visible = false;
+	logoMesh.visible = false;
 
 	if (fileId)
 	{
-
-
-		const video = document.createElement('video');
-		video.id = 'ar_video';
-		video.autoplay = true;
-		//video.muted = true;
-		video.crossOrigin = 'anonymous';
-		//video.webkitPlaysinline = true;
-		video.style.display = 'none';
-
-
-		video.setAttribute('webkit-playsinline', 'webkit-playsinline');
-		video.setAttribute('playsinline', 'playsinline');
+		video.src ='videos_compressed/'+fileId+'.mp4'; 
 
 
 
-		const source = document.createElement('source');
-		source.src = 'videos_compressed/'+fileId+'.mp4';
-		source.type = 'video/mp4';
 
-		video.appendChild(source);
-
-		document.body.appendChild(video);
-		console.log("ADDED?")
-
-		
-
-		loadingMesh.visible = true;
-			
-		
-		video.addEventListener('loadeddata', () => {
-
-			loadingMesh.visible = false;
-			console.log("VIDEO LOADED")
-
-			video.play();
+		video.play();
 			
 				
-			let geometry1 = new THREE.PlaneBufferGeometry(videoScale,videoScale*640/360, 4,4);
-			let texture = new THREE.VideoTexture( video );
-			texture.minFilter = THREE.LinearFilter;
-			texture.magFilter = THREE.LinearFilter;
-			texture.format = THREE.RGBFormat;
-			let material1 = new THREE.MeshBasicMaterial( { map: texture } );
+		let geometry1 = new THREE.PlaneBufferGeometry(videoScale,videoScale*640/360, 4,4);
+		let texture = new THREE.VideoTexture( video );
+		texture.minFilter = THREE.LinearFilter;
+		texture.magFilter = THREE.LinearFilter;
+		texture.format = THREE.RGBFormat;
+		let material1 = new THREE.MeshBasicMaterial( { map: texture } );
 						
-			VideoMesh = new THREE.Mesh( geometry1, material1 );
-			console.log(VideoMesh);
-			mainPivot.add(VideoMesh);
-		});
-
+		VideoMesh = new THREE.Mesh( geometry1, material1 );
+		console.log(VideoMesh);
+		mainPivot.add(VideoMesh);
+			
+		loadingMesh.visible = true;
 		
-		logoMesh.visible = false;
+
 	}
 	else
 	{
@@ -255,6 +231,18 @@ function setVideoMesh(fileId)
 	
 }
 
+const startButton = document.getElementById( 'startButton' );
+startButton.addEventListener( 'click', function () {
+
+
+	document.getElementById("video_ar").play();
+    initialize();
+    animate();
+
+
+	loadPics();
+
+} );
 
 function initialize()
 {
@@ -417,6 +405,15 @@ function extraInitialize()
 	loadingMesh = new THREE.Mesh(new THREE.PlaneGeometry( 1, 1 ),textures["loading_video"]);
 	
 	mainPivot.add(loadingMesh);
+
+
+	
+	document.getElementById("video_ar").addEventListener('loadeddata', () => {
+
+		console.log("VIDEO LOADED")
+		loadingMesh.visible = false;
+
+		});
 }
 
 
@@ -545,11 +542,6 @@ function animate()
 }
 
 
-
-
-initialize();
-animate();
-
 let toLoad = ['logo','loading_video'];
 
 const textures = {};
@@ -573,7 +565,6 @@ function loadPics() {
 	}
   });
 }
-loadPics();
 
 </script>
 
