@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <head>
 	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-	<title>Hello, AR Cube!</title>
+	<title>Red Bull Doodle Art</title>
 	<!-- include three.js library -->
 	<script src='js/three.js'></script>
 	<!-- include jsartookit -->
@@ -58,7 +58,8 @@ var artistData = [
 		file : "Evhenia Bromistov"
 	},
 	{ //5
-		name : "Diana Vornicov"
+		name : "Diana Vornicov",
+		file : "Diana Vornicov"
 	},
 	{ //6
 		name : "Smirnova Alina",
@@ -261,6 +262,9 @@ function initialize()
 	renderer.domElement.style.top = '0px'
 	renderer.domElement.style.left = '0px'
 	document.body.appendChild( renderer.domElement );
+
+	
+    renderer.setPixelRatio(window.innerWidth<window.innerHeight? window.devicePixelRatio*2 : window.devicePixelRatio);
 
 	clock = new THREE.Clock();
 	deltaTime = 0;
