@@ -65,6 +65,123 @@ var smoothedRoots = [];
 
 var videoScale = 1;
 
+var artistData = [
+	{ //1
+		name : "Marin Țurcan"
+	},
+	{ //2
+		name : "Anastasia Sindjaradze",
+		file : "Anastasia Sindjaradze"
+	},
+	{ //3
+		name : "Victor Arhip",
+		file : "Victor Arhip"
+	},
+	{ //4
+		name : "Evhenia Bronistov",
+		file : "Evhenia Bromistov"
+	},
+	{ //5
+		name : "Diana Vornicov"
+	},
+	{ //6
+		name : "Smirnova Alina",
+		file : "Alina Smirnova"
+	},
+	{ //7
+		name : "Natalia Suruba",
+		file : "Natalia Suruba"
+	},
+	{ //8
+		name : "Bratan E"
+	},
+	{ //9
+		name : "Isac Daniel"
+	},
+	{ //10
+		name : "Alexandru Capustin"
+	},
+	{ //11
+		name : "Panfil Anastasia",
+		file : "Anastasia Panfil"
+	},
+	{ //12
+		name : "Mihaela Racila",
+		file : "Racila Mihaela"
+	},
+	{ //13
+		name : "Viorel Pinzaru",
+		file : "Viorel Panzaru"
+	},
+	{ //14
+		name : "Laura Soltan",
+		file : "Laura Soltan"
+	},
+	{ //15
+		name : "Andreea Kirtoka",
+		file : "Andreea Kitroka"
+	},
+	{ //16
+		name : "Ecaterina Bizgu",
+		file : "Ecaterina Bizgu"
+	},
+	{ //17
+		name : "Odajiu Aliona",
+		file : "Odajiu Aliona"
+	},
+	{ //18
+		name : "Алина Г",
+		file : "Alina Grusco"
+	},
+	{ //19
+		name : "Victoria Casminina",
+		file : "Victoria Casminina"
+	},
+	{ //20
+		name : "Андрей Т",
+		file : "Andrei Tudorean"
+	},
+	{ //21
+		name : "Anastasia Draghic",
+		file : "Anastasia Draghici"
+	},
+	{ //22
+		name : "Rafael Raetchi",
+		file : "Rafael Raetchi"
+	},
+	{ //23
+		name : "Vitalina Rusnac",
+		file : "Vitalina Rusnac 1"
+	},
+	{ //24
+		name : "Daria Palancica",
+		file : "Daria Palancica"
+	},
+	{ //25
+		name : "Andreea Diaconu",
+		file : "Diaconu Andreea"
+	},
+	{ //26
+		name : "Sergiu M",
+		file : "Sergiu Moraru"
+	},
+	{ //27
+		name : "Ostrev Nicoleta",
+		file : "Nicoleta Ostrev"
+	},
+	{ //28
+		name : "Mila Franciuc"
+	},
+	{ //29
+		name : "Buretz Alex",
+		file : "Alex Buretz"
+	},
+	{ //30
+		name : "Vitalina Rusnac",
+		file : "Vitalina Rusnac 2"
+	},
+	
+]
 
 let currentTargetId = -1;
 
@@ -82,51 +199,49 @@ function setVideoMesh(fileId)
 {
 
 	
-	let video = document.getElementById("video_ar");
+    if (VideoMesh)
+	{
+		VideoMesh.geometry.dispose();
+		VideoMesh.material.dispose();
+		mainPivot.remove( VideoMesh );
+		VideoMesh = null;
 
-	video.src ='videos_compressed/'+"Alina Grusco"+'.mp4'; 
+		console.log("VIDEO MESH DISPOSED")
+	}
+	loadingMesh.visible = false;
+	logoMesh.visible = false;
+	if (true)
+	{
 
-    /*
-    const source1 = document.createElement('source');
-	source1.src = 'sintel.ogv'//
-	source1.type = 'video/ogg';
-	//source1.codecs = 'theora, vorbis';
 
-	video.appendChild(source1);*/
+		let video = document.getElementById("video_ar");
+
+		video.src ='videos_compressed/'+fileId+'.mp4'; 
+
+
+		video.play();
+			
+				
+			let geometry1 = new THREE.PlaneBufferGeometry(videoScale,videoScale*640/360, 4,4);
+			let texture = new THREE.VideoTexture( video );
+			texture.minFilter = THREE.LinearFilter;
+			texture.magFilter = THREE.LinearFilter;
+			texture.format = THREE.RGBFormat;
+			let material1 = new THREE.MeshBasicMaterial( { map: texture } );
+						
+			VideoMesh = new THREE.Mesh( geometry1, material1 );
+			console.log(VideoMesh);
+			mainPivot.add(VideoMesh);
+			
+		loadingMesh.visible = true;
+		
 
 		
-	//source2.codecs = 'avc1.42E01E, mp4a.40.2';
-
-
-	document.body.appendChild(video);
-
-   
-
-	video.play();
-	texture = new THREE.VideoTexture( video );
-
-	texture.minFilter = THREE.LinearFilter;
-	texture.magFilter = THREE.LinearFilter;
-	texture.format = THREE.RGBFormat;
-	let geometry1 = new THREE.PlaneBufferGeometry(2.5,4, 4,4);
-
-	let material1 = new THREE.MeshBasicMaterial( { map: texture } );
-				
-	VideoMesh = new THREE.Mesh( geometry1, material1 );
-	VideoMesh.position.z = -10;
-	console.log(VideoMesh);
-	scene.add(VideoMesh);
-	//
-
-
-
-    video.addEventListener('loadeddata', () => {
-
-
-
-
-
-    });
+	}
+	else
+	{
+		
+	}
 }
 
 
@@ -260,7 +375,7 @@ function init() {
 
 	window.setTimeout(function(){
 
-		setVideoMesh(null);
+		//setVideoMesh(null);
 	}
 	, 5000);
 
@@ -284,6 +399,12 @@ function extraInitialize()
 	mainPivot.add(loadingMesh);
 
 
+	document.getElementById("video_ar").addEventListener('loadeddata', () => {
+
+	console.log("VIDEO LOADED")
+	loadingMesh.visible = false;
+
+	});
 }
 
 //
@@ -358,6 +479,10 @@ function render() {
 		currentTargetId = scannedTargetId;
 		
 		
+		if (artistData[scannedTargetId-1].file)
+			setVideoMesh(artistData[scannedTargetId-1].file);
+		else
+			setVideoMesh(null);
 			
 		mainPivot.visible = false;
 	}
