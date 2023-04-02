@@ -221,6 +221,7 @@ function setVideoMesh(fileId)
 	}
 	else
 	{
+		video.pause();
 		logoMesh.visible = true;
 	}
 
@@ -234,6 +235,7 @@ document.addEventListener( 'click', function () {
 	document.getElementById("video_ar").play();
     
 
+	clicked = true;
 
 
 } );
@@ -253,7 +255,8 @@ function initialize()
 		alpha: true
 	});
 	renderer.setClearColor(new THREE.Color('lightgrey'), 0)
-	renderer.setSize( 640, 480 );
+	
+    renderer.setSize(window.innerWidth,window.innerHeight);
 	renderer.domElement.style.position = 'absolute'
 	renderer.domElement.style.top = '0px'
 	renderer.domElement.style.left = '0px'
@@ -286,6 +289,8 @@ function initialize()
 
 	arToolkitSource.init(function onReady(){
 		onResize()
+
+		helpMesh.visible = true;
 
 	});
 	
@@ -388,6 +393,11 @@ function initialize()
 
 let logoMesh;
 let loadingMesh;
+let helpMesh;
+
+
+let clicked = false;
+let helpA = 0;
 
 function extraInitialize()
 {
@@ -400,6 +410,12 @@ function extraInitialize()
 	
 	mainPivot.add(loadingMesh);
 
+	helpMesh = new THREE.Mesh(new THREE.PlaneGeometry( 1, 1 ),textures["help"]);
+	
+	helpMesh.position.z = -5;
+	helpMesh.scale.set(2,2,2);
+	scene.add(helpMesh);
+	helpMesh.visible = false;
 
 	
 	document.getElementById("video_ar").addEventListener('loadeddata', () => {
@@ -425,6 +441,20 @@ for (let i=0;i<30;i++)
 
 function update()
 {
+
+	if (clicked && helpMesh)
+	{
+		if (helpA<1)
+		{
+			helpA+=0.02;
+			helpMesh.position.y = (1-(1-helpA)*(1-helpA))/2;
+			helpMesh.material.opacity = 1-helpA;
+		}
+		else
+		{
+			helpMesh.visible = false;
+		}
+	}
 
 
 	rotI += 1;
@@ -536,7 +566,7 @@ function animate()
 }
 
 
-let toLoad = ['logo','loading_video'];
+let toLoad = ['logo','loading_video','help'];
 
 const textures = {};
 
